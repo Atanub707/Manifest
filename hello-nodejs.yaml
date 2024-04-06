@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-nodejs
+spec:
+  selector:
+    matchLabels:
+      run: hello-nodejs
+  template:
+    metadata:
+      labels:
+        run: hello-nodejs
+    spec:
+      containers:
+      - name: hello-nodejs
+        image: atanubiswas/hello-node:v0.1
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 200m
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hello-nodejs
+  labels:
+    run: hello-nodejs
+spec:
+  ports:
+  - port: 80
+  selector:
+    run: hello-nodejs
